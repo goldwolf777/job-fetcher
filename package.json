@@ -22,5 +22,9 @@
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "bootstrap-vue": "^2.17.3",
+        "vue-good-table": "^2.21.0"
     }
 }

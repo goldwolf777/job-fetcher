@@ -18,17 +18,17 @@ class JobsService {
         $this->client = new Client(['base_uri' => 'https://paikat.te-palvelut.fi/tpt-api/']);
     }
 
-    public function getJobs($page, $search, $orderBy, $orderDirection, $update) {
+    public function getJobs($page, $search, $orderBy, $orderDirection, $update, $perPage) {
         $jobsInDbCount = Job::count();
         $jobs = null;
         if($jobsInDbCount > 1 && !$update) {
             Log::info("There is already data in DB will use that");
-            $jobs = json_encode($this->getJobsFromDb($search, $page, $orderBy, $orderDirection));
+            $jobs = $this->getJobsFromDb($search, $page, $orderBy, $orderDirection, $perPage)->toJson();
         } else {
             try{
                 Log::info("No data in DB or asked to update data from API:".$jobsInDbCount);
                 $this->getJobsFromAPI();
-                $jobs = json_encode($this->getJobsFromDb($search, $page, $orderBy, $orderDirection));
+                $jobs = $this->getJobsFromDb($search, $page, $orderBy, $orderDirection, $perPage)->toJson();
             } catch (ClientException $e) {
                 Log::error("I was unable to fetch the data due to:". $e->getResponse());
             }
@@ -36,11 +36,11 @@ class JobsService {
         return $jobs;
     }
 
-    private function getJobsFromDb($search, $page, $orderBy, $orderDirection) {
+    private function getJobsFromDb($search, $page, $orderBy, $orderDirection, $perPage) {
         return DB::table('jobs')->where("company", "like", "%".$search."%")
             ->orWhere("job_title", "like", "%".$search."%")
             ->orderBy($orderBy, $orderDirection)
-            ->paginate(50,'*','pageName', $page);
+            ->paginate($perPage,'*','pageName', $page);
     }
 
     private function getJobsFromAPI() {

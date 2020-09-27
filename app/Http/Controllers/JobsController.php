@@ -14,12 +14,13 @@ class JobsController extends Controller {
     }
 
     public function getJobs(Request $request) {
-        $page = $request->input("page") != null ? $request->input("page") :  1;
-        $search = $request->input("search") != null ? $request->input("search") : "";
-        $orderBy = $request->input("orderBy") != null ? $request->input("orderBy") : "job_created_at";
-        $orderDirection = $request->input("orderDirection") ? $request->input("orderDirection") : "DESC";
-        $update = $request->input("update") != null ?  $request->input("update") : false;
-        $response = $this->jobsService->getJobs($page, $search, $orderBy, $orderDirection, $update);
+        $page = trim($request->input("page")) ? $request->input("page") :  1;
+        $search = trim($request->input("search")) ? $request->input("search") : "";
+        $perPage = trim($request->input("perPage")) ? $request->input("perPage") : 25;
+        $orderBy = trim($request->input("orderBy")) ? $request->input("orderBy") : "job_created_at";
+        $orderDirection = trim($request->input("orderDirection")) ? $request->input("orderDirection") : "DESC";
+        $update = $request->input("update") ?  $request->input("update") : false;
+        $response = $this->jobsService->getJobs($page, $search, $orderBy, $orderDirection, $update, $perPage);
         return response($response, Response::HTTP_OK);
     }
 }
