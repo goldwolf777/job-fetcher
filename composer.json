@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "v2.4.1",
         "barryvdh/laravel-ide-helper": "v2.8.1",
-        "ext-json": "*"
+        "ext-json": "*",
+        "staudenmeir/laravel-upsert": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
