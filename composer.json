@@ -15,7 +15,8 @@
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "v2.4.1",
-        "barryvdh/laravel-ide-helper": "v2.8.1"
+        "barryvdh/laravel-ide-helper": "v2.8.1",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
