@@ -18,7 +18,8 @@ class CreateJobsTable extends Migration {
             $table->text('company');
             $table->longText('description');
             $table->dateTime('job_created_at');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 
