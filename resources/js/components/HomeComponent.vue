@@ -16,28 +16,28 @@
             </b-navbar>
         </div>
         <b-container>
-                <jobs-table-component :resync="resync" @syncComplete="resync = false; disable=false"></jobs-table-component>
+            <jobs-table-component :resync="resync" @syncComplete="resync = false; disable=false"></jobs-table-component>
         </b-container>
     </div>
 </template>
 
 <script>
-    import JobsTableComponent from "./JobsTableComponent";
+import JobsTableComponent from "./JobsTableComponent";
 
-    export default {
-        components: {
-            JobsTableComponent,
-        },
-        data() {
-            return {
-                resync: false,
-                disableButton: false
-            }
-        },
-        methods: {
-            resyncData() {
-                this.resync = true;
-            },
+export default {
+    components: {
+        JobsTableComponent,
+    },
+    data() {
+        return {
+            resync: false,
+            disableButton: false
         }
+    },
+    methods: {
+        resyncData() {
+            this.resync = true;
+        },
     }
+}
 </script>
