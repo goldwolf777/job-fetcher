@@ -175,7 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        App\Providers\JobFetcherServiceProvider::class
+        App\Providers\JobsFetcherServiceProvider::class,
+        App\Providers\JobsRepositoryServiceProvider::class
 
     ],
 

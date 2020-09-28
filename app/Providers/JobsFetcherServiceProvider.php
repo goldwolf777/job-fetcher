@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use App\Http\Services\JobFetcher;
-use App\Http\Services\JobFetcherImpl;
+use App\Http\Services\JobsFetcher;
+use App\Http\Services\JobsFetcherImpl;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-class JobFetcherServiceProvider extends ServiceProvider {
+class JobsFetcherServiceProvider extends ServiceProvider {
     public function boot() {}
 
     public function register() {
         $this->app->bind(
-            JobFetcher::class,
-            JobFetcherImpl::class
+            JobsFetcher::class,
+            JobsFetcherImpl::class
         );
     }
 }

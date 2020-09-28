@@ -1,61 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Jobilla Task
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+1. Create a fresh Laravel installation, pull in Vue.js for the front-end part
+2. Fetch all English jobs from the Public Employment and Business Services’ API, and store
+them in a MySQL DB table (https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true)
+3. Fetch the following attributes: Job title (otsikko), description (kuvausteksti), created_at
+(ilmoituspaivamaara), company (tyonantajanNimi)
+4. Display the fetched Jobs on a simple web page (table, grid, whatever you prefer)
+5. Implement sorting or searching the data on the page somehow (please perform the data
+sorting/searching on the server-side, not purely on the front-end)
 
-## About Laravel
+## Steps undertaken
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1) Created a fresh Laravel installation, and looked at how Laravel and PHP works together + what composer does
+2) Added a Vue.js dependency and made it work 
+3) Created the logic to fetch the jobs from the API
+4) Created the logic to save the fetched data
+5) Found a problem with created_at and updated_at not getting updated and fixed it
+6) Added a new column external_id to be able to do upserts
+7) Found a library to be able to do an upsert
+8) Added logic for pagination,sorting,search and update 
+9) Added a new Component to Vue.js and vue-good-table to show the data and have pagination etc out of the box
+10) Updated logic to be able to re-sync with the API data (this means that data will be updated in the database)
+11) Refactoring, adding Repository classes (not sure if that's the right way to use it)
+12) Moved Job Fetching to a separate implementation class and interface
+13) Added tests
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Assumptions made
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Rather than just adding data once to the database and using that data (or just getting data from API all the time),
+extra logic was added, to be able to resync the data from the api to the database on the click of the button.
 
-## Learning Laravel
+Rather than creating my own table, ive used vue-good-table which is similar to material-table for react and allows remote data.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Id of the jobs from the api was saved as external_id to be able to do the upsert (meaning that we are not going to spam the database)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+I didn't want to call the db on each row (and upsert seemed like the best solution)
 
-## Laravel Sponsors
+Standard classes that came with Laravel install were left for future if User authentication would be needed
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Sadly not many tests were created but that's due to some issues about which you can find out below
 
-### Premium Partners
+Jobila logo was used in the Navbar and the logo does not belong to me and all rights are reserved by Jobilla
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+## Issues 
 
-## Contributing
+I was unable to set up the dubug on PHPStorm IDE (spent good 1-2hrs) for some reason. Xdebug is installed, PHPStorm seems to be setup
+the browser extension for XDebug was also set. This made development rather not straight forward and not being able to see and evaluate
+how the new language to me works was rather hard.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Not many tests were written again due to being unable to debug to see how mocked objects work, and how to be able to mock methods and some classes
 
-## Code of Conduct
+## Improvements
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+As we already have the User object and authentication out of the box with Laravel I would add authentication to this application
+Columns in table should be aligned better, such as maybe have less space for Description of the job and give more space to the Date.
+Maybe NavBar could be fixed (somehow sticky parameter didn't work on it)
+More Unit Tests should be added on the backend side
 
-## Security Vulnerabilities
+## Improvements
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Overall an interesting task, and fun when you never done PHP and Vue.js. PHP has definitely went further from where it used to me 5+ years ago.
+Vue.js seems rather similar to React except few things were interesting like the way child communicates with the parent component.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

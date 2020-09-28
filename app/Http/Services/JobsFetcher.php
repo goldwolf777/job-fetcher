@@ -4,6 +4,6 @@
 namespace App\Http\Services;
 
 
-interface JobFetcher {
+interface JobsFetcher {
     public function getJobs();
 }
