@@ -9,8 +9,8 @@ class JobsController extends Controller {
 
     private $jobsService = null;
 
-    public function __construct() {
-        $this->jobsService = new JobsService();
+    public function __construct(JobsService $jobsService) {
+        $this->jobsService = $jobsService;
     }
 
     public function getJobs(Request $request) {
@@ -21,6 +21,9 @@ class JobsController extends Controller {
         $orderDirection = trim($request->input("orderDirection")) ? $request->input("orderDirection") : "DESC";
         $update = "true" === $request->input("update");
         $response = $this->jobsService->getJobs($page, $search, $orderBy, $orderDirection, $update, $perPage);
+        if($response === null) {
+            return response("Unable to get jobs", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
         return response($response, Response::HTTP_OK);
     }
 }
