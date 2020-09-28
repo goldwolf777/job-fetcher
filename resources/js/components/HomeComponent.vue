@@ -1,109 +1,43 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <vue-good-table
-                    mode="remote"
-                    @on-page-change="onPageChange"
-                    @on-sort-change="onSortChange"
-                    @on-per-page-change="onPerPageChange"
-                    @on-search="onSearch"
-                    :search-options="{
-                        enabled: true,
-                        trigger: 'enter'
-                      }"
-                    :sort-options="{
-                        enabled: true,
-                        initialSortBy: {field: 'company', type: 'asc'}
-                      }"
-                    :pagination-options="{enabled: true}"
-                    :totalRows="totalRecords"
-                    :rows="tableRows"
-                    :columns="columns"/>
-            </div>
+    <div>
+        <div>
+            <b-navbar toggleable="lg" variant="light" sticky>
+                <b-navbar-brand>
+                    <img :src="'/images/jobilla_logo_color.png'" width="10%" alt="jobilla-logo">
+                </b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+                <b-collapse id="nav-collapse" is-nav>
+                    <b-navbar-nav class="ml-auto" right>
+                        <b-nav-item target="_blank" href="https://github.com/goldwolf777/job-fetcher">Info</b-nav-item>
+                        <b-button variant="primary" :disabled="disableButton" v-on:click="resyncData">Sync</b-button>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
         </div>
+        <b-container>
+                <jobs-table-component :resync="resync" @syncComplete="resync = false; disable=false"></jobs-table-component>
+        </b-container>
     </div>
 </template>
 
 <script>
-import 'vue-good-table/dist/vue-good-table.css'
-import { VueGoodTable } from 'vue-good-table';
+    import JobsTableComponent from "./JobsTableComponent";
+
     export default {
         components: {
-            VueGoodTable
+            JobsTableComponent,
         },
         data() {
             return {
-                isLoading: false,
-                columns: [
-                    {
-                        label: 'Company',
-                        field: 'company',
-                    },
-                    {
-                        label: 'Job Title',
-                        field: 'job_title',
-                    },
-                    {
-                        label: 'Description',
-                        field: 'description',
-                    },
-                ],
-                totalRecords: 0,
-                tableRows: [],
-                serverParams: {
-                    search:'',
-                    orderBy: '',
-                    orderDirection: '',
-                    sort: {
-                        field: '',
-                        type: '',
-                    },
-                    page: 1,
-                    perPage: 10
-                }
+                resync: false,
+                disableButton: false
             }
         },
         methods: {
-            updateParams(newProps) {
-                this.serverParams = Object.assign({}, this.serverParams, newProps);
+            resyncData() {
+                this.resync = true;
             },
-
-            onPageChange(params) {
-                this.updateParams({page: params.currentPage});
-                this.loadItems();
-            },
-
-            onPerPageChange(params) {
-                this.updateParams({perPage: params.currentPerPage});
-                this.loadItems();
-            },
-
-            onSearch(params) {
-                this.serverParams.search = params.searchTerm
-                this.loadItems();
-            },
-
-            onSortChange(params) {
-                this.updateParams({
-                        orderDirection: params[0].type,
-                        orderBy: params[0].field,
-                });
-                this.loadItems();
-            },
-
-            loadItems() {
-                let params = this.serverParams;
-                window.axios.get("/api/jobs?search="+params.search+"&page="
-                    +params.page+"&perPage="+params.perPage+"&orderBy="+params.orderBy+"&orderDirection="+params.orderDirection).then(response => {
-                    this.totalRecords = response.data.total;
-                    this.tableRows = response.data.data;
-                });
-            },
-        },
-        mounted() {
-            this.loadItems();
-            console.log('Component mounted.')
         }
     }
 </script>

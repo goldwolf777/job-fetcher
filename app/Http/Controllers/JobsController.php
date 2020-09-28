@@ -19,7 +19,7 @@ class JobsController extends Controller {
         $perPage = trim($request->input("perPage")) ? $request->input("perPage") : 25;
         $orderBy = trim($request->input("orderBy")) ? $request->input("orderBy") : "job_created_at";
         $orderDirection = trim($request->input("orderDirection")) ? $request->input("orderDirection") : "DESC";
-        $update = $request->input("update") ?  $request->input("update") : false;
+        $update = "true" === $request->input("update");
         $response = $this->jobsService->getJobs($page, $search, $orderBy, $orderDirection, $update, $perPage);
         return response($response, Response::HTTP_OK);
     }

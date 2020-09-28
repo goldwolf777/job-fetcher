@@ -26,7 +26,7 @@ class JobsService {
             $jobs = $this->getJobsFromDb($search, $page, $orderBy, $orderDirection, $perPage)->toJson();
         } else {
             try{
-                Log::info("No data in DB or asked to update data from API:".$jobsInDbCount);
+                Log::info("No data in DB or asked to update data from API");
                 $this->getJobsFromAPI();
                 $jobs = $this->getJobsFromDb($search, $page, $orderBy, $orderDirection, $perPage)->toJson();
             } catch (ClientException $e) {

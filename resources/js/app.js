@@ -7,6 +7,8 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-default.css';
 
 require('./bootstrap');
 
@@ -33,6 +35,7 @@ Vue.component('home-component', require('./components/HomeComponent.vue').defaul
  */
 
 Vue.use(BootstrapVue)
+Vue.use(VueToast);
 
 const app = new Vue({
     el: '#app',
