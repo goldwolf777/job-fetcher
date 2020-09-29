@@ -57,7 +57,7 @@ Columns in table should be aligned better, such as maybe have less space for Des
 Maybe NavBar could be fixed (somehow sticky parameter didn't work on it)
 More Unit Tests should be added on the backend side
 
-## Improvements
+## Conclusion
 
 Overall an interesting task, and fun when you never done PHP and Vue.js. PHP has definitely went further from where it used to me 5+ years ago.
 Vue.js seems rather similar to React except few things were interesting like the way child communicates with the parent component.
